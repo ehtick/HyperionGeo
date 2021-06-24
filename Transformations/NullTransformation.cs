@@ -6,7 +6,8 @@ namespace HyperionGeo
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         EcefCoordinate ITransformation.Transform(
-            in EcefCoordinate coordinateToTransform,
-            bool _) => coordinateToTransform;
+                                    in EcefCoordinate coordinateToTransform,
+                                    bool _)
+            => coordinateToTransform;
     }
 }

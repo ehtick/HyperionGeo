@@ -1,8 +1,7 @@
 ﻿using System;
-using static System.Math;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-using System.Runtime.CompilerServices;
+using static System.Math;
 
 namespace HyperionGeo
 {
@@ -25,10 +24,11 @@ namespace HyperionGeo
         public int NumberOfRows { get; init; }
         public int NumberOfColumns { get; init; }
         public double CellsizeX { get; init; }
-
         public double CellsizeY { get; init; }
+        
         private static double LinearInterpolation(double left, double right, double pos)
-            => FusedMultiplyAdd(1 - pos, left, pos * right);
+            => FusedMultiplyAdd(1.0 - pos, left, pos * right);
+        
         protected static double BilinearInterolation(double a, double b, double c, double d, double x, double y)
             => LinearInterpolation(LinearInterpolation(a, b, x), LinearInterpolation(c, d, x), y);
 
@@ -49,10 +49,10 @@ namespace HyperionGeo
         }
 
         private static unsafe float[,] ReadFloatFile(string fileName, int rows, int columns)
-        {          
+        {
             FileInfo fileInfo = new(fileName);
             long len = fileInfo.Exists ? fileInfo.Length : throw new FileNotFoundException("File not found!", fileInfo.FullName);
- 
+
             using MemoryMappedFile file = MemoryMappedFile.CreateFromFile(fileInfo.FullName, FileMode.Open, null, len, MemoryMappedFileAccess.Read);
             using MemoryMappedViewAccessor fileAccessor = file.CreateViewAccessor(0, len, MemoryMappedFileAccess.Read);
             float[,] geoidImage = new float[rows, columns];

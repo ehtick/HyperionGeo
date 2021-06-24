@@ -7,6 +7,7 @@ namespace HyperionGeo
     {
         static void Main()
         {
+          
             var wgs = new EllipsoidalCoordinate(18, 46);
             //var wgs_ecef = wgs.GetAsECEF(Ellipsoids.WGS84);
             var wgs_ecef = wgs.GetAsECEF(Ellipsoids.WGS84);
@@ -14,7 +15,7 @@ namespace HyperionGeo
             var u = GeoidModels.EGM96.GetUndulationValue(wgs);
 
             var wgs_ecef2 = wgs_lalo.GetAsECEF(Ellipsoids.WGS84);
-            var di = wgs_ecef2.GetDistance(wgs_ecef);
+            var di = wgs_ecef2.GetDistance(ref wgs_ecef);
 
             var gm = GeoidModels.EGM96;
           

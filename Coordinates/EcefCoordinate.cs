@@ -11,7 +11,7 @@ namespace HyperionGeo
 {
     [DebuggerDisplay("{ToString()}")]
     [StructLayout(LayoutKind.Sequential, Size = 3 * sizeof(double))]
-    public readonly struct EcefCoordinate : IEquatable<EcefCoordinate>
+    public readonly struct EcefCoordinate : IEquatable<EcefCoordinate>, ICoordinate
     {
         private const string XMustBeFinite = "X must be finite.";
         private const string YMustBeFinite = "Y must be finite.";
@@ -57,7 +57,7 @@ namespace HyperionGeo
         }
 
         [SkipLocalsInit]
-        public double GetDistance(in EcefCoordinate other)
+        public double GetDistance(ref EcefCoordinate other)
         {
             double dx = X - other.X, dy = Y - other.Y, dz = Z - other.Z;
             return Sqrt(FusedMultiplyAdd(dx, dx, FusedMultiplyAdd(dy, dy, dz * dz)));

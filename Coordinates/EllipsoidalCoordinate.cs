@@ -6,13 +6,12 @@ using static HyperionGeo.FiniteChecks;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HyperionGeo
 {
     [DebuggerDisplay("{ToString()}")]
     [StructLayout(LayoutKind.Explicit, Size = Size)]
-    public readonly unsafe struct EllipsoidalCoordinate : IEquatable<EllipsoidalCoordinate>
+    public unsafe struct EllipsoidalCoordinate : IEquatable<EllipsoidalCoordinate>, ICoordinate
     {
         private const string LongitudeMustBeFinite = "Longitude must be finite.";
         private const string LatitudeMustBeFinite = "Latitude must be finite.";
@@ -24,10 +23,10 @@ namespace HyperionGeo
         public const int Size = 3 * sizeof(double);
 
         [field: FieldOffset(0 * sizeof(double))]
-        public double Lon_Radians { [MethodImpl(MethodImplOptions.AggressiveInlining)]get; }
-       
+        public double Lon_Radians { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
+
         [field: FieldOffset(1 * sizeof(double))]
-        public double Lat_Radians { [MethodImpl(MethodImplOptions.AggressiveInlining)]get; }
+        public double Lat_Radians { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
 
         [field: FieldOffset(2 * sizeof(double))]
         public double Height_Meters { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
@@ -46,13 +45,17 @@ namespace HyperionGeo
 
         public bool IsValid => IsFinite(Lon_Radians) && IsFinite(Lat_Radians) && IsFinite(Height_Meters);
 
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public EllipsoidalCoordinate(double lon, double lat, double height = 0d, bool untrusted = true,
                                      bool radianLonAndLat = false) : this()
         {
             Height_Meters = height;
-            if (radianLonAndLat) { Lon_Radians = lon; Lat_Radians = lat; }
-            else { Lon_Radians = DegToRad * lon; Lat_Radians = DegToRad * lat; }
+
+            if (radianLonAndLat)
+            { Lon_Radians = lon; Lat_Radians = lat; }
+            else
+            { Lon_Radians = DegToRad * lon; Lat_Radians = DegToRad * lat; }
 
             if (untrusted) CheckUntrustedInput();
         }
