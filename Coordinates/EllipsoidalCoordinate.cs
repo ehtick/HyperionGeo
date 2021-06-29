@@ -1,4 +1,9 @@
-﻿using static System.Math;
+﻿//
+// Copyright © Ákos Halmai, 2021. All rights reserved.
+// Licensed under the GNU GPL 3.0. See LICENSE file in the project root for full license information.
+//
+
+using static System.Math;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -171,6 +176,11 @@ namespace HyperionGeo
                 in targetEllipsoid,
                 out ellipsoidalCoordinate);
         }
+
+        [SkipLocalsInit]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DoesNotReturn] // Remove if implemented!
+        public double GetDistance(ref EllipsoidalCoordinate other) => throw new NotImplementedException();
 
         [SkipLocalsInit]
         public override string ToString() => "Lat: " + Lat_Degrees + "°; Lon: " + Lon_Degrees + "°; Alt: " + Height_Meters + "\u00a0m";

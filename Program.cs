@@ -1,5 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿//
+// Copyright © Ákos Halmai, 2021. All rights reserved.
+// Licensed under the GNU GPL 3.0. See LICENSE file in the project root for full license information.
+//
 
 namespace HyperionGeo
 {
@@ -10,8 +12,9 @@ namespace HyperionGeo
           
             var wgs = new EllipsoidalCoordinate(18, 46);
             //var wgs_ecef = wgs.GetAsECEF(Ellipsoids.WGS84);
-            var prj = wgs.TryProject(Projections.WGS84_WebMercator_AuxSphere, out ProjectedCoordinate wemerc);
-            var rew = wemerc.GetAsEllipsidalCoordinate(Projections.WGS84_WebMercator_AuxSphere);
+            var prj = wgs.TryProject(Projections.WGS84_PseudoMercator, out ProjectedCoordinate wemerc);
+            var rew = wemerc.GetAsEllipsidalCoordinate(Projections.WGS84_PseudoMercator);
+            var dist = wgs.GetDistance(ref wgs);
 
             var wgs_ecef = wgs.GetAsECEF(Ellipsoids.WGS84);
             wgs_ecef.TryGetAsEllipsoidal(Ellipsoids.WGS84, out EllipsoidalCoordinate wgs_lalo);
