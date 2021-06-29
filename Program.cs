@@ -10,6 +10,9 @@ namespace HyperionGeo
           
             var wgs = new EllipsoidalCoordinate(18, 46);
             //var wgs_ecef = wgs.GetAsECEF(Ellipsoids.WGS84);
+            var prj = wgs.TryProject(Projections.WGS84_WebMercator_AuxSphere, out ProjectedCoordinate wemerc);
+            var rew = wemerc.GetAsEllipsidalCoordinate(Projections.WGS84_WebMercator_AuxSphere);
+
             var wgs_ecef = wgs.GetAsECEF(Ellipsoids.WGS84);
             wgs_ecef.TryGetAsEllipsoidal(Ellipsoids.WGS84, out EllipsoidalCoordinate wgs_lalo);
             var u = GeoidModels.EGM96.GetUndulationValue(wgs);

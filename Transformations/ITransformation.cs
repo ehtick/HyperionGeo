@@ -29,7 +29,7 @@ namespace HyperionGeo
         /// Returns the transformed <see cref="EcefCoordinate"/>.
         /// </returns>
          public EcefCoordinate Transform(
-             in EcefCoordinate coordinateToTransform, 
+             ref EcefCoordinate coordinateToTransform, 
              bool forward);
     }
 }

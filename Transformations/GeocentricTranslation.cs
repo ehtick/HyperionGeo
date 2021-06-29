@@ -16,7 +16,7 @@ namespace HyperionGeo
         public double DZ { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        EcefCoordinate ITransformation.Transform(in EcefCoordinate ecefCoordinate, bool forward)
+        EcefCoordinate ITransformation.Transform(ref EcefCoordinate ecefCoordinate, bool forward)
         {
             ecefCoordinate.QueryXYZ(out double x,
                                     out double y,

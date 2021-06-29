@@ -127,17 +127,6 @@ namespace HyperionGeo
             return new(d * coslon, d * sinlon, FusedMultiplyAdd(p1mee, N, alt) * sinlat, untrusted: false);
         }
 
-        [SkipLocalsInit]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryProject(
-            [DisallowNull] in Ellipsoid sourceEllipsoid,
-            [DisallowNull] in Ellipsoid targetEllipsoid,
-            out EllipsoidalCoordinate ellipsoidalCoordinate,
-            [DisallowNull] in ITransformation transformation,
-            bool forward = true) =>
-            transformation.Transform(GetAsECEF(in sourceEllipsoid), forward).
-            TryGetAsEllipsoidal(in targetEllipsoid, out ellipsoidalCoordinate);
-
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static IEnumerable<EcefCoordinate> GetAsECEF(
             [DisallowNull] IEnumerable<EllipsoidalCoordinate> ellipsoidalCoordinates,
@@ -147,9 +136,9 @@ namespace HyperionGeo
 
             ellipsoid.QueryParamsForECEFCalculations(out double aadc, out double bbdcc, out double p1mee);
 
-            foreach (EllipsoidalCoordinate ellipsoidal in ellipsoidalCoordinates)
+            foreach (EllipsoidalCoordinate ellipsoidalCoordinate in ellipsoidalCoordinates)
             {
-                ellipsoidal.QueryLatLonSinCosHeight(
+                ellipsoidalCoordinate.QueryLatLonSinCosHeight(
                                          out double sinlon, out double coslon,
                                          out double sinlat, out double coslat,
                                          out double alt);
@@ -161,6 +150,27 @@ namespace HyperionGeo
             }
         }
 
+        [SkipLocalsInit]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryProject(
+            [DisallowNull] in IProjection projection,
+            out ProjectedCoordinate projectedCoordinate) =>
+            projection.TryProjectForward(ref this, out projectedCoordinate);
+
+
+        [SkipLocalsInit]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryTransform([DisallowNull] in Ellipsoid sourceEllipsoid,
+                                 [DisallowNull] in Ellipsoid targetEllipsoid,
+                                 out EllipsoidalCoordinate ellipsoidalCoordinate,
+                                 [DisallowNull] in ITransformation transformation,
+                                 bool forward = true)
+        {
+            EcefCoordinate ecef = GetAsECEF(in sourceEllipsoid);
+            return transformation.Transform(ref ecef, forward).TryGetAsEllipsoidal(
+                in targetEllipsoid,
+                out ellipsoidalCoordinate);
+        }
 
         [SkipLocalsInit]
         public override string ToString() => "Lat: " + Lat_Degrees + "°; Lon: " + Lon_Degrees + "°; Alt: " + Height_Meters + "\u00a0m";

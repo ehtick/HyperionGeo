@@ -11,8 +11,10 @@ namespace HyperionGeo
 {
     [DebuggerDisplay("{ToString()}")]
     [StructLayout(LayoutKind.Sequential, Size = 3 * sizeof(double))]
-    public readonly struct EcefCoordinate : IEquatable<EcefCoordinate>, ICoordinate
+    public struct EcefCoordinate : IEquatable<EcefCoordinate>, ICoordinate
     {
+        #region Common XYZ coordinate management
+
         private const string XMustBeFinite = "X must be finite.";
         private const string YMustBeFinite = "Y must be finite.";
         private const string ZMustBeFinite = "Z must be finite.";
@@ -45,7 +47,7 @@ namespace HyperionGeo
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        
+
         public void QueryXYZ(
             out double x,
             out double y,
@@ -71,6 +73,28 @@ namespace HyperionGeo
             if (IsNonFinite(Y)) throw new NotFiniteNumberException(YMustBeFinite, Y);
             if (IsNonFinite(Z)) throw new NotFiniteNumberException(ZMustBeFinite, Z);
         }
+
+        [SkipLocalsInit]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override bool Equals(object? obj) => obj is EcefCoordinate coordinate && Equals(coordinate);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(EcefCoordinate other) =>
+                           X == other.X &&
+                           Y == other.Y &&
+                           Z == other.Z;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode() => HashCode.Combine(X, Y, Z);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(EcefCoordinate left, EcefCoordinate right) => left.Equals(right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(EcefCoordinate left, EcefCoordinate right) => !(left == right);
+
+        #endregion Common XYZ coordinate management
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public bool TryGetAsEllipsoidal([DisallowNull] in Ellipsoid ellipsoid,
@@ -140,7 +164,7 @@ namespace HyperionGeo
             double alt = (u < 1.0) ? -da : da;
 
             ellipsoidalCoordinate = new(
-                lon: Atan2(y, x), 
+                lon: Atan2(y, x),
                 lat: Atan2(uz, wv),
                 height: alt,
                 untrusted: false,
@@ -156,25 +180,5 @@ namespace HyperionGeo
                 Append(Z).
                 Append("\u00a0m").
                 ToString();
-
-        [SkipLocalsInit]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override bool Equals(object? obj) => obj is EcefCoordinate coordinate && Equals(coordinate);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(EcefCoordinate other) =>
-                           X == other.X &&
-                           Y == other.Y &&
-                           Z == other.Z;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(X, Y, Z);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(EcefCoordinate left, EcefCoordinate right) => left.Equals(right);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(EcefCoordinate left, EcefCoordinate right) => !(left == right);
-
     }
 }
