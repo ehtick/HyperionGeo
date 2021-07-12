@@ -105,6 +105,19 @@ namespace HyperionGeo
         public bool TryGetAsEllipsoidal([DisallowNull] in Datum datum,
                                                out EllipsoidalCoordinate ellipsoidalCoordinate)
         {
+
+            // The idea behind this code came from
+            // “Accurate Conversion of Earth-Fixed Earth-Centered Coordinates to Geodetic Coordinates”
+            // published by Karl Osen.
+            // Check out the original C algorithm & idea at the following link:
+            // https://hal.archives-ouvertes.fr/hal-01704943v2/.
+            // This piece of code was copied from this publication and it was modified
+            // by Ákos Halmai to accommodate to C♯ & .NET.
+            // There were several “FusedMultiplyAdd”, “ScaleB” and one “Cbrt” added.
+            // The original comments of the code were left in place to act like
+            // milestones if someone would like to compare it with the original
+            // publication (some variables were moved or removed).
+
             const double inv6 = .16666666666666666666666666666666666666666666666666;
             const double inv3 = .33333333333333333333333333333333333333333333333333;
             const double invcbrt2 = .79370052598409973737585281963615413019574666394992;
