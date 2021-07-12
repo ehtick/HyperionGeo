@@ -9,22 +9,22 @@ namespace HyperionGeo
     {
         static void Main()
         {
-          
+
             var wgs = new EllipsoidalCoordinate(18, 46);
             //var wgs_ecef = wgs.GetAsECEF(Ellipsoids.WGS84);
             var prj = wgs.TryProject(Projections.WGS84_PseudoMercator, out ProjectedCoordinate wemerc);
             var rew = wemerc.GetAsEllipsidalCoordinate(Projections.WGS84_PseudoMercator);
-            var dist = wgs.GetDistance(ref wgs);
+            //var dist = wgs.GetDistance(ref wgs);
 
-            var wgs_ecef = wgs.GetAsECEF(Ellipsoids.WGS84);
-            wgs_ecef.TryGetAsEllipsoidal(Ellipsoids.WGS84, out EllipsoidalCoordinate wgs_lalo);
+            var wgs_ecef = wgs.GetAsECEF(Datums.WGS84);
+            wgs_ecef.TryGetAsEllipsoidal(Datums.WGS84, out EllipsoidalCoordinate wgs_lalo);
             var u = GeoidModels.EGM96.GetUndulationValue(wgs);
 
-            var wgs_ecef2 = wgs_lalo.GetAsECEF(Ellipsoids.WGS84);
+            var wgs_ecef2 = wgs_lalo.GetAsECEF(Datums.WGS84);
             var di = wgs_ecef2.GetDistance(ref wgs_ecef);
 
             var gm = GeoidModels.EGM96;
-          
+
             //var x = wgs_ecef.ToString();
             //var hd72_ecef = Trans_WGS84_HD72.WGS84ToHD72(wgs_ecef);
 

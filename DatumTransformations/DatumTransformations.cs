@@ -4,14 +4,15 @@
 //
 
 using System.Runtime.CompilerServices;
+using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace HyperionGeo
 {
-    public static class Transformations
+    public static class DatumTransformations
     {   
-        public static GeocentricTranslation HD72ToWGS84 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; } =
+        public static GeocentricTranslation HD72ToWGS84 { [MethodImpl(AggressiveInlining)] get; } =
             new (52.17, -71.82, -14.9);
-        public static NullTransformation NullTransformation { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; } =
+        public static NullTransformation NullTransformation { [MethodImpl(AggressiveInlining)] get; } =
             new ();
      }
 }

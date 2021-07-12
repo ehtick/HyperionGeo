@@ -102,16 +102,16 @@ namespace HyperionGeo
 
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public bool TryGetAsEllipsoidal([DisallowNull] in Ellipsoid ellipsoid,
+        public bool TryGetAsEllipsoidal([DisallowNull] in Datum datum,
                                                out EllipsoidalCoordinate ellipsoidalCoordinate)
         {
             const double inv6 = .16666666666666666666666666666666666666666666666666;
             const double inv3 = .33333333333333333333333333333333333333333333333333;
             const double invcbrt2 = .79370052598409973737585281963615413019574666394992;
 
-            if (ellipsoid is null) throw new ArgumentNullException(nameof(ellipsoid));
+            if (datum is null) throw new ArgumentNullException(nameof(datum));
 
-            ellipsoid.QueryParamsForLatLonCalculations(out double invaa, out double p1meedaa, out double ll4,
+            datum.QueryParamsForLatLonCalculations(out double invaa, out double p1meedaa, out double ll4,
                                             out double ll, out double Hmin, out double l,
                                             out double p1mee);
             double x = X, y = Y, z = Z;

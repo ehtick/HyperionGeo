@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 namespace HyperionGeo
 {
     [SkipLocalsInit]
-    public record Ellipsoid
+    public record Datum
     {
         public double SemiMajorAxis { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
         public double InverseFlattening { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
@@ -29,7 +29,7 @@ namespace HyperionGeo
         private readonly double Hmin;
 
 
-        public Ellipsoid(
+        public Datum(
             double semiMajorAxis, double inverseFlattening, double invaa,
             double l, double p1mee, double aadc,
             double bbdcc, double p1meedaa,
@@ -79,7 +79,7 @@ namespace HyperionGeo
                 bbdcc,
                 p1meedaa), ll4, ll, Hmin);
 
-        public virtual bool Equals(Ellipsoid? other) =>
+        public virtual bool Equals(Datum? other) =>
             other is not null && SemiMajorAxis == other.SemiMajorAxis
             && InverseFlattening == other.InverseFlattening
             && invaa == other.invaa

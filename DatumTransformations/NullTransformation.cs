@@ -7,10 +7,10 @@ using System.Runtime.CompilerServices;
 
 namespace HyperionGeo
 {
-    public class NullTransformation : ITransformation
+    public class NullTransformation : IDatumTransformation
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        EcefCoordinate ITransformation.Transform(
+        EcefCoordinate IDatumTransformation.Transform(
                                     ref EcefCoordinate coordinateToTransform,
                                     bool _)
             => coordinateToTransform;

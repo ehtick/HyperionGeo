@@ -10,10 +10,10 @@ namespace HyperionGeo
     /// </summary>
     /// <remarks>Every transformation class/record have to implement this interface to use for
     /// <see cref="EcefCoordinate"/> transformations, like 
-    /// <see cref="Ellipsoids.IUGG67" → <see cref="Ellipsoids.WGS84"/>.
+    /// <see cref="Datums.IUGG67" → <see cref="Datums.WGS84"/>.
     /// </remarks>
 
-    public interface ITransformation
+    public interface IDatumTransformation
     {
         /// <summary>
         /// Simplified method to implement geodetic datum transformations in
@@ -25,7 +25,7 @@ namespace HyperionGeo
         /// <param name="forward">Incoming <see cref="bool"/> switch to indicate the direction of
         /// the transformation. If <paramref name="forward"/> is <see cref="true"/> it indicates the
         /// forward direction of “A” to “B” if the implemted transformation called “AToB”.
-        /// For example if the transformation called <see cref="Transformations.HD72ToWGS84"/> 
+        /// For example if the transformation called <see cref="DatumTransformations.HD72ToWGS84"/> 
         /// than the <see cref="true"/> indicates a transformation pointing from HD72
         /// to WGS84.</param>
         /// <returns>

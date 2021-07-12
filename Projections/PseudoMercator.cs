@@ -5,6 +5,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using static System.Runtime.CompilerServices.MethodImplOptions;
 
 using static System.Math;
 
@@ -18,16 +19,16 @@ namespace HyperionGeo
             if (FiniteChecks.IsNonFinite(k0))
                 throw new NotFiniteNumberException(K0NotFinite, k0);
 
-            this.k0 = k0;
+            this.K0 = k0;
         }
 
-        public double k0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; init; }
+        public double K0 { [MethodImpl(AggressiveInlining)] get; init; }
 
         [SkipLocalsInit]
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        [MethodImpl(AggressiveOptimization)]
         EllipsoidalCoordinate IProjection.ProjectInverse(ref ProjectedCoordinate coordinateToProject)
         {
-            double k0 = this.k0;
+            double k0 = this.K0;
             coordinateToProject.QueryXYZ(out double x, out double y, out double z);
             return new(
                 lon: x / k0,
@@ -38,13 +39,13 @@ namespace HyperionGeo
         }
 
         [SkipLocalsInit]
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        [MethodImpl(AggressiveOptimization)]
         bool IProjection.TryProjectForward(
             ref EllipsoidalCoordinate coordinateToProject,
             out ProjectedCoordinate projectedCoordinate)
         {
-            const double PIp4 = 0.78539816339744830961566084581988;
-            double k0 = this.k0;
+            const double PIp4 = 0.78539816339744830961566084581988; // ¼·π.
+            double k0 = K0;
             coordinateToProject.QueryLatLonHeight(out double lon_radians, out double lat_radians, out double height_meters);
 
             projectedCoordinate = new(k0 * lon_radians,

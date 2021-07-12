@@ -1,83 +1,104 @@
-﻿//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿// Not ready. Do not use it!
 
-//namespace HyperionGeo
-//{
+using System;
 
-//    public interface IGeometry
-//    {
+namespace HyperionGeo
+{
 
-//    }
-//    public abstract record Geometry : IGeometry
-//    {
-    
-//    }
+    public interface IGeometry
+    {
 
-//    public record Point<T> : Geometry, IGeometry where T : struct, ICoordinate
-//    {
-//        private readonly ICoordinate coordinate;
-        
-//        public Point(ICoordinate coordinate)
-//        {
-//            this.coordinate = coordinate ?? throw new ArgumentNullException(nameof(coordinate));
-//        }
-//    }
+    }
 
-//    public record LineStrig<T> : IGeometry, IList<T> where T : struct, ICoordinate
-//    {
-//        private readonly List<T> storage;
-//        T IList<T>.this[int index] { get => storage[index]; set => storage[index] = value; }
+    public abstract record Geometry : IGeometry
+    {
 
-//        int ICollection<T>.Count => storage.Count;
+    }
 
-//        bool ICollection<T>.IsReadOnly => false;
+    /// <summary>
+    /// Not ready! Do not use it!
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public record Point<T> : Geometry, IGeometry where T : struct, ICoordinate
+    {
+        private readonly ICoordinate coordinate;
+        private readonly Type type;
+        public Datum Datum { get; set; }
+        public IProjection Projection { get; set; }
 
-//        void ICollection<T>.Add(T item)
-//        {
-//            throw new NotImplementedException();
-//        }
+        public Point(ICoordinate coordinate)
+        {
+            this.coordinate = coordinate ?? throw new ArgumentNullException(nameof(coordinate));
+            type = typeof(T);
+        }
 
-//        void ICollection<T>.Clear() => storage.Clear();
+        public double X
+        {
+            get
+            {
+                return coordinate switch
+                {
+                    EcefCoordinate ecefCoordinate => ecefCoordinate.X,
+                    EllipsoidalCoordinate ellipsoidalCoordinate => ellipsoidalCoordinate.Lon_Radians,
+                    ProjectedCoordinate projectedCoordinate => projectedCoordinate.X,
+                    _ => throw new InvalidCastException("Wrong coordinate type."),
+                };
+            }
 
-//        bool ICollection<T>.Contains(T item) => storage.Contains(item);
+        }
+    }
 
-//        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
-//        {
-//            throw new NotImplementedException();
-//        }
+    //    public record LineStrig<T> : IGeometry, IList<T> where T : struct, ICoordinate
+    //    {
+    //        private readonly List<T> storage;
+    //        T IList<T>.this[int index] { get => storage[index]; set => storage[index] = value; }
 
-//        IEnumerator<T> IEnumerable<T>.GetEnumerator()
-//        {
-//            throw new NotImplementedException();
-//        }
+    //        int ICollection<T>.Count => storage.Count;
 
-//        IEnumerator IEnumerable.GetEnumerator()
-//        {
-//            throw new NotImplementedException();
-//        }
+    //        bool ICollection<T>.IsReadOnly => false;
 
-//        int IList<T>.IndexOf(T item)
-//        {
-//            throw new NotImplementedException();
-//        }
+    //        void ICollection<T>.Add(T item)
+    //        {
+    //            throw new NotImplementedException();
+    //        }
 
-//        void IList<T>.Insert(int index, T item)
-//        {
-//            throw new NotImplementedException();
-//        }
+    //        void ICollection<T>.Clear() => storage.Clear();
 
-//        bool ICollection<T>.Remove(T item)
-//        {
-//            throw new NotImplementedException();
-//        }
+    //        bool ICollection<T>.Contains(T item) => storage.Contains(item);
 
-//        void IList<T>.RemoveAt(int index)
-//        {
-//            throw new NotImplementedException();
-//        }
-//    }
-//}
+    //        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+    //        {
+    //            throw new NotImplementedException();
+    //        }
+
+    //        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    //        {
+    //            throw new NotImplementedException();
+    //        }
+
+    //        IEnumerator IEnumerable.GetEnumerator()
+    //        {
+    //            throw new NotImplementedException();
+    //        }
+
+    //        int IList<T>.IndexOf(T item)
+    //        {
+    //            throw new NotImplementedException();
+    //        }
+
+    //        void IList<T>.Insert(int index, T item)
+    //        {
+    //            throw new NotImplementedException();
+    //        }
+
+    //        bool ICollection<T>.Remove(T item)
+    //        {
+    //            throw new NotImplementedException();
+    //        }
+
+    //        void IList<T>.RemoveAt(int index)
+    //        {
+    //            throw new NotImplementedException();
+    //        }
+    //    }
+}

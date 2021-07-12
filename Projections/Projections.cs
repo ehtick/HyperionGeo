@@ -10,6 +10,6 @@ namespace HyperionGeo
     public static class Projections
     {
         public static PseudoMercator WGS84_PseudoMercator { [MethodImpl(MethodImplOptions.AggressiveInlining)]get; } =
-            new(Ellipsoids.WGS84.SemiMajorAxis);     
+            new(Datums.WGS84.SemiMajorAxis);     
     }
 }

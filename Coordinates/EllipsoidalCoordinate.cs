@@ -115,11 +115,11 @@ namespace HyperionGeo
         }
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public EcefCoordinate GetAsECEF([DisallowNull] in Ellipsoid ellipsoid)
+        public EcefCoordinate GetAsECEF([DisallowNull] in Datum datum)
         {
-            if (ellipsoid is null) throw new ArgumentNullException(nameof(ellipsoid));
+            if (datum is null) throw new ArgumentNullException(nameof(datum));
 
-            ellipsoid.QueryParamsForECEFCalculations(out double aadc, out double bbdcc, out double p1mee);
+            datum.QueryParamsForECEFCalculations(out double aadc, out double bbdcc, out double p1mee);
             QueryLatLonSinCosHeight(
                                     out double sinlon, out double coslon,
                                     out double sinlat, out double coslat,
@@ -135,11 +135,11 @@ namespace HyperionGeo
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static IEnumerable<EcefCoordinate> GetAsECEF(
             [DisallowNull] IEnumerable<EllipsoidalCoordinate> ellipsoidalCoordinates,
-            [DisallowNull] Ellipsoid ellipsoid)
+            [DisallowNull] Datum datum)
         {
-            if (ellipsoid is null) throw new ArgumentNullException(nameof(ellipsoid));
+            if (datum is null) throw new ArgumentNullException(nameof(datum));
 
-            ellipsoid.QueryParamsForECEFCalculations(out double aadc, out double bbdcc, out double p1mee);
+            datum.QueryParamsForECEFCalculations(out double aadc, out double bbdcc, out double p1mee);
 
             foreach (EllipsoidalCoordinate ellipsoidalCoordinate in ellipsoidalCoordinates)
             {
@@ -165,15 +165,15 @@ namespace HyperionGeo
 
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryTransform([DisallowNull] in Ellipsoid sourceEllipsoid,
-                                 [DisallowNull] in Ellipsoid targetEllipsoid,
+        public bool TryTransform([DisallowNull] in Datum sourceDatum,
+                                 [DisallowNull] in Datum targetDatum,
                                  out EllipsoidalCoordinate ellipsoidalCoordinate,
-                                 [DisallowNull] in ITransformation transformation,
+                                 [DisallowNull] in IDatumTransformation transformation,
                                  bool forward = true)
         {
-            EcefCoordinate ecef = GetAsECEF(in sourceEllipsoid);
+            EcefCoordinate ecef = GetAsECEF(in sourceDatum);
             return transformation.Transform(ref ecef, forward).TryGetAsEllipsoidal(
-                in targetEllipsoid,
+                in targetDatum,
                 out ellipsoidalCoordinate);
         }
 

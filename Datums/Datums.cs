@@ -8,9 +8,9 @@ using System.Runtime.CompilerServices;
 namespace HyperionGeo
 {
     [SkipLocalsInit]
-    public static class Ellipsoids
+    public static class Datums
     {
-        public static Ellipsoid IUGG67 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
+        public static Datum IUGG67 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
              = new(semiMajorAxis: 6378160,
                   inverseFlattening: 298.247167427,
                   invaa: .00000000000002458154529067306734509336180948059588,
@@ -22,7 +22,7 @@ namespace HyperionGeo
                   ll4: .00004481774050528643273409507598118108187763457794,
                   ll: .00001120443512632160818352376899529527046940864448,
                   hmin: .00000000000002250556300397114362153161399772866119);
-        public static Ellipsoid WGS84 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
+        public static Datum WGS84 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
              = new(semiMajorAxis: +6.37813700000000000000e+0006,
                   inverseFlattening: +2.98257223563000000000e+0002,
                   invaa: +2.45817225764733181057e-0014,
