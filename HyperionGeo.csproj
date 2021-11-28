@@ -11,6 +11,7 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <Nullable>enable</Nullable>
     <Features>strict</Features>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
