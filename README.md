@@ -10,3 +10,4 @@ MÉM Országos Füldügyi és Térképészeti Hivatal 1975: Vetületi szabályza
 
 Gade, Kenneth (2010). "A non-singular horizontal position representation" (PDF). The Journal of Navigation. Cambridge University Press. 63 (3): 395–417. doi:10.1017/S0373463309990415 https://www.cambridge.org/core/journals/journal-of-navigation/article/abs/nonsingular-horizontal-position-representation/9DA5AFB5EC91CFF0E755C18BBAA37171
 
+See LICENCE file for term & conditions.
